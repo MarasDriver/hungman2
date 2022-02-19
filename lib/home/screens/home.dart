@@ -5,6 +5,31 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          "Będziesz Pan Wisiał",
+          style: TextStyle(fontFamily: "Schyler", fontSize: 40.0),
+        ),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(onPressed: () {}, child: Text("New Game")),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 75.0),
+              child: ElevatedButton(
+                  onPressed: () {}, child: Text("Wall of the hanged")),
+            ),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(primary: Colors.black),
+                onPressed: () {},
+                child: Text("Logout")),
+          ],
+        ),
+      ),
+    );
   }
 }
