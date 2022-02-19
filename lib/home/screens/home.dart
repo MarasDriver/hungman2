@@ -15,7 +15,7 @@ class Home extends StatelessWidget {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          // mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Image(image: AssetImage("assets/img/a.jpg")),
             Image.asset("assets/img/a.jpg"),
