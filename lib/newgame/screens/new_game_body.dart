@@ -79,6 +79,11 @@ class NewGameBody extends StatelessWidget {
                                                         listen: false)
                                                     .mistakes! +
                                                 1;
+                                        if (_mistakes > 6) {
+                                          Provider.of<NewGameProvider>(context,
+                                                  listen: false)
+                                              .mistakes = 0;
+                                        }
                                         print(e);
                                       },
                                       child: Text(e)),
