@@ -121,8 +121,10 @@ class NewGameBody extends StatelessWidget {
       });
 
       if (_wordCheck.contains(false)) {
+        // Nie wszystkie słowa odgadnięte
         _mylocalBool = false;
       } else {
+        // Partia skończona, co dalej
         _mylocalBool = true;
       }
       if (Provider.of<NewGameProvider>(context, listen: false).currentWord! <
@@ -158,9 +160,30 @@ class NewGameBody extends StatelessWidget {
                   [];
             },
           ).show();
-        } else {
-          // Show end game dialog -> close and restart
-        }
+        } else {}
+      } else if (_mylocalBool) {
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.SUCCES,
+          borderSide:
+              BorderSide(color: Color.fromARGB(255, 9, 35, 153), width: 2),
+          // width: 280,
+          buttonsBorderRadius: BorderRadius.all(Radius.circular(2)),
+          headerAnimationLoop: false,
+          animType: AnimType.BOTTOMSLIDE,
+          title: 'Okay! You Win!',
+          desc: "Wanna hang more?",
+          dismissOnBackKeyPress: false,
+          btnCancelText: "Menu",
+          btnOkText: "One more game!",
+          btnCancelOnPress: () {
+            Navigator.pop(context);
+          },
+          btnOkOnPress: () {
+            Provider.of<NewGameProvider>(context, listen: false).loading = true;
+            Provider.of<NewGameProvider>(context, listen: false).init();
+          },
+        ).show();
       }
 
       ////////////////////
