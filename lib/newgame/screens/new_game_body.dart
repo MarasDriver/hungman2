@@ -57,7 +57,7 @@ class NewGameBody extends StatelessWidget {
                                     size: 15,
                                     text: _passedWords.contains(e.toLowerCase())
                                         ? e
-                                        : "#$e"),
+                                        : ""),
                                 Container(
                                   width: 30,
                                   height: 5,
