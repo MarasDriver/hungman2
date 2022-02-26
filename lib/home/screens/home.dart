@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hangman2/newgame/data/provider/new_game_provider.dart';
 import 'package:hangman2/newgame/screens/new_game_screen.dart';
 import 'package:hangman2/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +25,7 @@ class Home extends StatelessWidget {
             Image.asset("assets/img/a.jpg"),
             ElevatedButton(
                 onPressed: () {
+                  Provider.of<NewGameProvider>(context, listen: false).init();
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => NewGame()));
                 },

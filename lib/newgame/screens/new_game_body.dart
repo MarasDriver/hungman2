@@ -20,11 +20,11 @@ class NewGameBody extends StatelessWidget {
 
     List _passedWords = Provider.of<NewGameProvider>(context).passedWords!;
 
-    return listOfWords.first == ''
+    return listOfWords.first == '' ||
+            Provider.of<NewGameProvider>(context).loading!
         ? Center(child: CircularProgressIndicator())
         : Column(
             children: [
-              Text(_passedWords.toString()),
               Container(
                   width: double.infinity,
                   height: MediaQuery.of(context).size.height * 1 / 3,
@@ -57,7 +57,7 @@ class NewGameBody extends StatelessWidget {
                                     size: 15,
                                     text: _passedWords.contains(e.toLowerCase())
                                         ? e
-                                        : ""),
+                                        : "#$e"),
                                 Container(
                                   width: 30,
                                   height: 5,
@@ -106,7 +106,64 @@ class NewGameBody extends StatelessWidget {
     if (textList!.contains(letter)) {
       Provider.of<NewGameProvider>(context, listen: false)
           .addPassedLetter(letter!);
-      print("hura " + letter);
+      // is next level check
+      bool _mylocalBool = false;
+      List<bool> _wordCheck = [];
+
+      textList.forEach((element) {
+        if (Provider.of<NewGameProvider>(context, listen: false)
+            .passedWords!
+            .contains(element)) {
+          _wordCheck.add(true);
+        } else {
+          _wordCheck.add(false);
+        }
+      });
+
+      if (_wordCheck.contains(false)) {
+        _mylocalBool = false;
+      } else {
+        _mylocalBool = true;
+      }
+      if (Provider.of<NewGameProvider>(context, listen: false).currentWord! <
+          Provider.of<NewGameProvider>(context, listen: false)
+                  .randomWords!
+                  .randomWords!
+                  .length -
+              1) {
+        if (_mylocalBool) {
+          AwesomeDialog(
+            context: context,
+            dialogType: DialogType.SUCCES,
+            borderSide: BorderSide(color: Colors.green, width: 2),
+            // width: 280,
+            buttonsBorderRadius: BorderRadius.all(Radius.circular(2)),
+            headerAnimationLoop: false,
+            animType: AnimType.BOTTOMSLIDE,
+            title: 'Congrats',
+            desc: 'Go to next level?',
+            dismissOnBackKeyPress: false,
+            btnCancelText: "Restart",
+            btnCancelOnPress: () {
+              Provider.of<NewGameProvider>(context, listen: false).loading =
+                  true;
+              Provider.of<NewGameProvider>(context, listen: false).init();
+            },
+            btnOkOnPress: () {
+              Provider.of<NewGameProvider>(context, listen: false).currentWord =
+                  Provider.of<NewGameProvider>(context, listen: false)
+                          .currentWord! +
+                      1;
+              Provider.of<NewGameProvider>(context, listen: false).passedWords =
+                  [];
+            },
+          ).show();
+        } else {
+          // Show end game dialog -> close and restart
+        }
+      }
+
+      ////////////////////
     } else {
       Provider.of<NewGameProvider>(context, listen: false).mistakes =
           Provider.of<NewGameProvider>(context, listen: false).mistakes! + 1;
@@ -122,9 +179,14 @@ class NewGameBody extends StatelessWidget {
           title: 'Hunged',
           desc: 'Wanna hang again?',
           dismissOnBackKeyPress: false,
-          btnCancelOnPress: () {},
-          btnOkOnPress: () {},
-        )..show();
+          btnCancelOnPress: () {
+            Navigator.pop(context);
+          },
+          btnOkOnPress: () {
+            Provider.of<NewGameProvider>(context, listen: false).loading = true;
+            Provider.of<NewGameProvider>(context, listen: false).init();
+          },
+        ).show();
       }
       ;
     }
