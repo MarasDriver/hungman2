@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hangman2/newgame/data/provider/new_game_provider.dart';
 import 'package:hangman2/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 
 class NewGameBody extends StatelessWidget {
   const NewGameBody({Key? key}) : super(key: key);
@@ -14,12 +15,16 @@ class NewGameBody extends StatelessWidget {
         Provider.of<NewGameProvider>(context).randomWords!.randomWords!;
 
     int? _currentWord = Provider.of<NewGameProvider>(context).currentWord;
-    List _textList = listOfWords[_currentWord!].split("");
+    List _textList = listOfWords[_currentWord!].toLowerCase().split("");
     int _mistakes = Provider.of<NewGameProvider>(context).mistakes!;
+
+    List _passedWords = Provider.of<NewGameProvider>(context).passedWords!;
+
     return listOfWords.first == ''
         ? Center(child: CircularProgressIndicator())
         : Column(
             children: [
+              Text(_passedWords.toString()),
               Container(
                   width: double.infinity,
                   height: MediaQuery.of(context).size.height * 1 / 3,
@@ -48,7 +53,11 @@ class NewGameBody extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                MyTextWidget(size: 15, text: ""),
+                                MyTextWidget(
+                                    size: 15,
+                                    text: _passedWords.contains(e.toLowerCase())
+                                        ? e
+                                        : ""),
                                 Container(
                                   width: 30,
                                   height: 5,
@@ -70,22 +79,19 @@ class NewGameBody extends StatelessWidget {
                             .map((e) => Container(
                                   width: 40.0,
                                   child: ElevatedButton(
-                                      onPressed: () {
-                                        Provider.of<NewGameProvider>(context,
-                                                    listen: false)
-                                                .mistakes =
-                                            Provider.of<NewGameProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .mistakes! +
-                                                1;
-                                        if (_mistakes > 6) {
-                                          Provider.of<NewGameProvider>(context,
-                                                  listen: false)
-                                              .mistakes = 0;
-                                        }
-                                        print(e);
-                                      },
+                                      // step 1
+
+                                      onPressed:
+                                          _passedWords.contains(e.toLowerCase())
+                                              ? null
+                                              : () {
+                                                  _checkButton(
+                                                      letter: e.toLowerCase(),
+                                                      textList: _textList,
+                                                      context: context);
+
+                                                  //   print(e);
+                                                },
                                       child: Text(e)),
                                 ))
                             .toList(),
@@ -94,5 +100,33 @@ class NewGameBody extends StatelessWidget {
               )
             ],
           );
+  }
+
+  _checkButton({String? letter, List? textList, context}) {
+    if (textList!.contains(letter)) {
+      Provider.of<NewGameProvider>(context, listen: false)
+          .addPassedLetter(letter!);
+      print("hura " + letter);
+    } else {
+      Provider.of<NewGameProvider>(context, listen: false).mistakes =
+          Provider.of<NewGameProvider>(context, listen: false).mistakes! + 1;
+      if (Provider.of<NewGameProvider>(context, listen: false).mistakes! >= 6) {
+        AwesomeDialog(
+          context: context,
+          dialogType: DialogType.ERROR,
+          borderSide: BorderSide(color: Colors.red, width: 2),
+          // width: 280,
+          buttonsBorderRadius: BorderRadius.all(Radius.circular(2)),
+          headerAnimationLoop: false,
+          animType: AnimType.BOTTOMSLIDE,
+          title: 'Hunged',
+          desc: 'Wanna hang again?',
+          dismissOnBackKeyPress: false,
+          btnCancelOnPress: () {},
+          btnOkOnPress: () {},
+        )..show();
+      }
+      ;
+    }
   }
 }
