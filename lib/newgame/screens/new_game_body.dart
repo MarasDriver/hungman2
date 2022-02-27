@@ -5,6 +5,8 @@ import 'package:hangman2/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 
+import '../data/provider/timer_provider.dart';
+
 class NewGameBody extends StatelessWidget {
   const NewGameBody({Key? key}) : super(key: key);
 
@@ -149,6 +151,7 @@ class NewGameBody extends StatelessWidget {
             btnCancelOnPress: () {
               Provider.of<NewGameProvider>(context, listen: false).loading =
                   true;
+
               Provider.of<NewGameProvider>(context, listen: false).init();
             },
             btnOkOnPress: () {
@@ -156,6 +159,7 @@ class NewGameBody extends StatelessWidget {
                   Provider.of<NewGameProvider>(context, listen: false)
                           .currentWord! +
                       1;
+
               Provider.of<NewGameProvider>(context, listen: false).passedWords =
                   [];
             },

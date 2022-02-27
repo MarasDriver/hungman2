@@ -13,7 +13,7 @@ class Home extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: const MyTextWidget(
-          size: 30.0,
+          size: 25.0,
           text: "Będziesz Pan Wisiał",
         ),
       ),
