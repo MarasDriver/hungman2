@@ -13,7 +13,7 @@ class MyTextWidget extends StatelessWidget {
       style: TextStyle(
         fontFamily: "Schyler",
         fontWeight: FontWeight.bold,
-        fontSize: 40.0,
+        fontSize: 35.0,
       ),
     );
   }
