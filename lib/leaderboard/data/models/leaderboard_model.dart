@@ -1,7 +1,8 @@
-class Cars {
-  Cars({required this.user, required this.score, required this.time});
+class LeaderBoardModel {
+  LeaderBoardModel(
+      {required this.user, required this.score, required this.time});
 
-  Cars.fromJson(Map<String, Object?> json)
+  LeaderBoardModel.fromJson(Map<String, Object?> json)
       : this(
           user: json['login']! as String,
           score: int.parse(json['score']! as String),

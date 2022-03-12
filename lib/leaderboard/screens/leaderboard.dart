@@ -1,17 +1,18 @@
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hangman2/home/screens/auth/data/providers/auth_state.dart';
+import 'package:hangman2/auth/data/providers/auth_state.dart';
+import 'package:hangman2/leaderboard/data/models/leaderboard_model.dart';
 import 'package:provider/provider.dart';
 
-
-class Home extends StatelessWidget {
-  Home({Key? key}) : super(key: key);
+class Leaderboard extends StatelessWidget {
+  Leaderboard({Key? key}) : super(key: key);
   List<String> documentsID = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
+        title: Text("LeaderBoard"),
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
@@ -24,52 +25,41 @@ class Home extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: StreamBuilder(
-              stream: FirebaseFirestore.instance.collection("Leaderboard").snapshots(),
+              stream: FirebaseFirestore.instance
+                  .collection("Leaderborard")
+                  .snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
                 } else {
-                  List<Cars> _listOfCars =
+                  List<LeaderBoardModel> _listOfResults =
                       snapshot.data!.docs.map((DocumentSnapshot document) {
                     Map<String, dynamic> data =
                         document.data()! as Map<String, dynamic>;
-                    return Cars.fromJson(data);
-                  }).toList();
-
-                  documentsID =
-                      snapshot.data!.docs.map((DocumentSnapshot document) {
-                    return document.id;
+                    return LeaderBoardModel.fromJson(data);
                   }).toList();
 
                   return ListView.builder(
                       shrinkWrap: true,
-                      itemCount: _listOfCars.length,
+                      itemCount: _listOfResults.length,
                       itemBuilder: (context, index) {
-                        Cars _car = _listOfCars[index];
-                        return listItem(_car, documentsID[index], context);
+                        LeaderBoardModel _result = _listOfResults[index];
+                        return ListTile(
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(_result.user!),
+                              Text(_result.score!.toString()),
+                              Text(_result.time!.toString()),
+                            ],
+                          ),
+                        );
                       });
                 }
               }),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Cars data = Cars(
-            brand: "",
-            model: "",
-          );
-          showDialog(
-              context: context,
-              builder: (_) => Dialog(
-                    child: CarModal(
-                      car: data,
-                      docID: "",
-                    ),
-                  ));
-        },
-        child: Icon(Icons.add),
       ),
     );
   }
@@ -102,3 +92,4 @@ class Home extends StatelessWidget {
 //     );
 //   }
 // }
+}

@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:firebase_exmle/screens/auth/data/providers/auth_state.dart';
 import 'package:flutter/material.dart';
+import 'package:hangman2/auth/data/providers/auth_state.dart';
 import 'package:provider/provider.dart';
 
-import '../home/screens/auth/data/providers/auth_state.dart';
 
 class SignupPage extends StatefulWidget {
   SignupPage({Key? key}) : super(key: key);

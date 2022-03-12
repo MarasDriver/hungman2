@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hangman2/home/screens/auth/data/providers/auth_state.dart';
+import 'package:hangman2/auth/data/providers/auth_state.dart';
+import 'package:hangman2/leaderboard/data/models/leaderboard_model.dart';
+import 'package:hangman2/leaderboard/screens/leaderboard.dart';
 import 'package:hangman2/newgame/data/provider/new_game_provider.dart';
 import 'package:hangman2/newgame/screens/new_game_screen.dart';
 import 'package:hangman2/widgets/text_widget.dart';
@@ -40,7 +42,15 @@ class Home extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 70.0),
                 child: ElevatedButton(
-                    onPressed: () {}, child: Text("Wall of the hanged")),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Leaderboard(),
+                        ),
+                      );
+                    },
+                    child: Text("Wall of the hanged")),
               ),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(primary: Colors.black),

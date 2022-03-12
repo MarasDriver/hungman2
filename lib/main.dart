@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:hangman2/home/screens/auth/data/providers/auth_state.dart';
+import 'package:hangman2/auth/data/providers/auth_state.dart';
 import 'package:hangman2/auth/sign_up.dart';
 import 'package:hangman2/home/screens/home.dart';
 import 'package:hangman2/newgame/data/provider/new_game_provider.dart';
