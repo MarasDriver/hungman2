@@ -44,7 +44,17 @@ class NewGame extends StatelessWidget {
           ),
         ],
       ),
-      body: WillPopScope(onWillPop: () async => false, child: NewGameBody()),
+      body: WillPopScope(
+          onWillPop: () async {
+            if (Provider.of<NewGameProvider>(context, listen: false).timer !=
+                null) {
+              Provider.of<NewGameProvider>(context, listen: false).endTimer();
+              return true;
+            } else {
+              return false;
+            }
+          },
+          child: NewGameBody()),
     );
   }
 }
