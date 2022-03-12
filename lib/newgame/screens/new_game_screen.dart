@@ -44,7 +44,7 @@ class NewGame extends StatelessWidget {
           ),
         ],
       ),
-      body: NewGameBody(),
+      body: WillPopScope(onWillPop: () async => false, child: NewGameBody()),
     );
   }
 }
