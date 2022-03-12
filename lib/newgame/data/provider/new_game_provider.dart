@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:hangman2/newgame/data/model/random_Words.dart';
 import 'package:hangman2/newgame/data/model/random_Words.dart';
@@ -68,6 +70,7 @@ class NewGameProvider extends ChangeNotifier {
 
       _randomWords = RandomWords.fromJson(response.body);
       _loading = false;
+      startTimer();
       notifyListeners();
     } catch (error) {
       print(error);
@@ -107,4 +110,30 @@ class NewGameProvider extends ChangeNotifier {
   ];
 
   List get alphabet => _alphabet;
+  int _time = 0;
+  int get time => _time;
+  set time(int newTime) {
+    _time = newTime;
+    notifyListeners();
+  }
+
+  Timer? _timer;
+  Timer? get timer => _timer;
+  set timer(Timer? newTimer) {
+    _timer = newTimer;
+    notifyListeners();
+  }
+
+  startTimer() {
+    time = 0;
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      _time = timer.tick;
+      notifyListeners();
+    });
+  }
+
+  endTimer() {
+    timer!.cancel();
+    timer = null;
+  }
 }

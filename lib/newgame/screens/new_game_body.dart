@@ -5,8 +5,6 @@ import 'package:hangman2/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 
-import '../data/provider/timer_provider.dart';
-
 class NewGameBody extends StatelessWidget {
   const NewGameBody({Key? key}) : super(key: key);
 
@@ -59,7 +57,7 @@ class NewGameBody extends StatelessWidget {
                                     size: 15,
                                     text: _passedWords.contains(e.toLowerCase())
                                         ? e
-                                        : ""),
+                                        : "#$e"),
                                 Container(
                                   width: 30,
                                   height: 5,
@@ -136,6 +134,8 @@ class NewGameBody extends StatelessWidget {
                   .length -
               1) {
         if (_mylocalBool) {
+          Provider.of<NewGameProvider>(context, listen: false).endTimer();
+
           AwesomeDialog(
             context: context,
             dialogType: DialogType.SUCCES,
@@ -162,10 +162,12 @@ class NewGameBody extends StatelessWidget {
 
               Provider.of<NewGameProvider>(context, listen: false).passedWords =
                   [];
+              Provider.of<NewGameProvider>(context, listen: false).startTimer();
             },
           ).show();
         } else {}
       } else if (_mylocalBool) {
+        Provider.of<NewGameProvider>(context, listen: false).endTimer();
         AwesomeDialog(
           context: context,
           dialogType: DialogType.SUCCES,
@@ -195,6 +197,7 @@ class NewGameBody extends StatelessWidget {
       Provider.of<NewGameProvider>(context, listen: false).mistakes =
           Provider.of<NewGameProvider>(context, listen: false).mistakes! + 1;
       if (Provider.of<NewGameProvider>(context, listen: false).mistakes! >= 6) {
+        Provider.of<NewGameProvider>(context, listen: false).endTimer();
         AwesomeDialog(
           context: context,
           dialogType: DialogType.ERROR,
