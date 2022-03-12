@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'data/providers/auth_state.dart';
+import '../home/screens/auth/data/providers/auth_state.dart';
 
 class SignupPage extends StatefulWidget {
   SignupPage({Key? key}) : super(key: key);
@@ -27,12 +27,12 @@ class _SignupPageState extends State<SignupPage> {
       body: Form(
         key: _formKey,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(0.0),
           child: Center(
             child: ListView(
-              shrinkWrap: true,
+              // shrinkWrap: true,
               children: [
-                FlutterLogo(size: 150),
+                Image.asset("assets/img/a.jpg"),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
