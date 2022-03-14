@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hangman2/auth/data/providers/auth_state.dart';
 import 'package:hangman2/newgame/data/provider/new_game_provider.dart';
 import 'package:hangman2/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
@@ -183,16 +185,37 @@ class NewGameBody extends StatelessWidget {
           btnCancelText: "Menu",
           btnOkText: "One more game!",
           btnCancelOnPress: () {
-            Navigator.pop(context);
+            FirebaseFirestore.instance.collection("Leader").add({
+              'login': Provider.of<AuthState>(context, listen: false)
+                  .auth
+                  .currentUser!
+                  .email,
+              'score': Provider.of<NewGameProvider>(context, listen: false)
+                  .currentWord
+                  .toString(),
+              'time': Provider.of<NewGameProvider>(context, listen: false)
+                  .time
+                  .toString(),
+            }).whenComplete(() => Navigator.of(context).pop());
           },
           btnOkOnPress: () {
+            FirebaseFirestore.instance.collection("Leader").add({
+              'login': Provider.of<AuthState>(context, listen: false)
+                  .auth
+                  .currentUser!
+                  .email,
+              'score': Provider.of<NewGameProvider>(context, listen: false)
+                  .currentWord
+                  .toString(),
+              'time': Provider.of<NewGameProvider>(context, listen: false)
+                  .time
+                  .toString(),
+            }).whenComplete(() => Navigator.of(context).pop());
             Provider.of<NewGameProvider>(context, listen: false).loading = true;
             Provider.of<NewGameProvider>(context, listen: false).init();
           },
         ).show();
       }
-
-      ////////////////////
     } else {
       Provider.of<NewGameProvider>(context, listen: false).mistakes =
           Provider.of<NewGameProvider>(context, listen: false).mistakes! + 1;
@@ -210,9 +233,32 @@ class NewGameBody extends StatelessWidget {
           desc: 'Wanna hang again?',
           dismissOnBackKeyPress: false,
           btnCancelOnPress: () {
-            Navigator.pop(context);
+            FirebaseFirestore.instance.collection("Leader").add({
+              'login': Provider.of<AuthState>(context, listen: false)
+                  .auth
+                  .currentUser!
+                  .email,
+              'score': Provider.of<NewGameProvider>(context, listen: false)
+                  .currentWord
+                  .toString(),
+              'time': Provider.of<NewGameProvider>(context, listen: false)
+                  .time
+                  .toString(),
+            }).whenComplete(() => Navigator.of(context).pop());
           },
           btnOkOnPress: () {
+            FirebaseFirestore.instance.collection("Leader").add({
+              'login': Provider.of<AuthState>(context, listen: false)
+                  .auth
+                  .currentUser!
+                  .email,
+              'score': Provider.of<NewGameProvider>(context, listen: false)
+                  .currentWord
+                  .toString(),
+              'time': Provider.of<NewGameProvider>(context, listen: false)
+                  .time
+                  .toString(),
+            }).whenComplete(() => Navigator.of(context).pop());
             Provider.of<NewGameProvider>(context, listen: false).loading = true;
             Provider.of<NewGameProvider>(context, listen: false).init();
           },

@@ -5,19 +5,19 @@ class LeaderBoardModel {
   LeaderBoardModel.fromJson(Map<String, Object?> json)
       : this(
           user: json['login']! as String,
-          score: int.parse(json['score']! as String),
-          time: int.parse(json['time']! as String),
+          score: json['score']! as String,
+          time: json['time']! as String,
         );
 
   String? user;
-  int? score;
-  int? time;
+  String? score;
+  String? time;
 
-  Map<String, Object?> toJson() {
+  Map<String, dynamic> toJson() {
     return {
       'user': user,
-      "score": score.toString(),
-      'time': time.toString(),
+      'score': score,
+      'time': time,
     };
   }
 }

@@ -25,9 +25,8 @@ class Leaderboard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: StreamBuilder(
-              stream: FirebaseFirestore.instance
-                  .collection("Leaderborard")
-                  .snapshots(),
+              stream:
+                  FirebaseFirestore.instance.collection("Leader").snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) {
                   return const Center(
@@ -51,8 +50,8 @@ class Leaderboard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Text(_result.user!),
-                              Text(_result.score!.toString()),
-                              Text(_result.time!.toString()),
+                              Text(_result.score!),
+                              Text(_result.time!),
                             ],
                           ),
                         );
@@ -70,7 +69,7 @@ class Leaderboard extends StatelessWidget {
 //       onDismissed: (direction) {
 //         if (direction == DismissDirection.startToEnd ||
 //             direction == DismissDirection.endToStart)
-//           FirebaseFirestore.instance.collection("Leaderboard").doc(docID).delete();
+//           FirebaseFirestore.instance.collection("Leader").doc(docID).delete();
 //       },
 //       child: ListTile(
 //         title: Text(car.brand!),
