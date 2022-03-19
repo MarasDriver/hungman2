@@ -126,6 +126,7 @@ class NewGameProvider extends ChangeNotifier {
 
   startTimer() {
     time = 0;
+    mistakes = 0;
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       _time = timer.tick;
       notifyListeners();
